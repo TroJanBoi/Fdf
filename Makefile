@@ -6,7 +6,7 @@
 #    By: pesrisaw <pesrisaw@student.42bangkok.co    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/10 19:05:16 by pesrisaw          #+#    #+#              #
-#    Updated: 2024/06/11 18:10:45 by pesrisaw         ###   ########.fr        #
+#    Updated: 2024/06/17 04:42:56 by pesrisaw         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,12 @@ LIBFT	= ./libft
 HEADERS	= -I ./include -I $(LIBMLX)/include -I $(LIBFT)
 LIBS	= $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
 
-SRCS	= main.c get_next_line.c
+SRCS	=	main.c \
+			get_next_line.c \
+			ft_color.c \
+			ft_error.c \
+			ft_free.c \
+			check_input.c
 
 OBJS	= ${SRCS:.c=.o}
 
