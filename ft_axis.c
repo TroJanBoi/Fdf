@@ -1,39 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free.c                                          :+:      :+:    :+:   */
+/*   ft_axis.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pesrisaw <pesrisaw@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/16 14:59:53 by pesrisaw          #+#    #+#             */
-/*   Updated: 2024/06/23 20:52:06 by pesrisaw         ###   ########.fr       */
+/*   Created: 2024/06/23 20:43:56 by pesrisaw          #+#    #+#             */
+/*   Updated: 2024/06/23 21:39:26 by pesrisaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	ft_free(char **str)
+void	ft_find_axis(t_fdf *ax, char *str)
 {
-	int	i;
+	int		fd;
+	char	*line;
+	int		i;
+	int		j;
 
+	fd = open(str, O_RDONLY);
+	if (fd < 0)
+		ft_error("No found file\n", 0);
 	i = 0;
-	while (str[i] != NULL)
+	while (1)
 	{
-		free(str[i]);
+		line = get_next_line(fd);
+		if (!line)
+			break ;
+		j = 0;
+		while (j < ft_count_nbr(line))
+			j++;
 		i++;
+		// printf("line : %s\n", line);
+		free(line);
 	}
-	free(str);
-}
-
-void	ft_free_struct(t_plot **plot)
-{
-	int	i;
-
-	i = 0;
-	while (plot[i] != NULL)
-	{
-		free(plot[i]);
-		i++;
-	}
-	free(plot);
+	ax->row = i;
+	ax->col = j;
+	close(fd);
+	// printf("done fd\n");
 }

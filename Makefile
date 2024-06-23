@@ -6,7 +6,7 @@
 #    By: pesrisaw <pesrisaw@student.42bangkok.co    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/10 19:05:16 by pesrisaw          #+#    #+#              #
-#    Updated: 2024/06/17 04:42:56 by pesrisaw         ###   ########.fr        #
+#    Updated: 2024/06/23 20:45:19 by pesrisaw         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,10 @@ SRCS	=	main.c \
 			ft_color.c \
 			ft_error.c \
 			ft_free.c \
-			check_input.c
+			check_input.c \
+			ft_util.c \
+			ft_drawline.c \
+			ft_axis.c
 
 OBJS	= ${SRCS:.c=.o}
 

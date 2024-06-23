@@ -18,6 +18,7 @@ char	*ft_readonly(int fd, char *word, char *stash)
 	char	*tmp;
 
 	size = read(fd, word, BUFFER_SIZE);
+	printf("size : %d\n", size);
 	while (size > 0)
 	{
 		if (size == -1)
@@ -34,7 +35,9 @@ char	*ft_readonly(int fd, char *word, char *stash)
 		if (ft_strchr(word, '\n'))
 			break ;
 		size = read(fd, word, BUFFER_SIZE);
+		printf("word : %s\n", word);
 	}
+	printf("done\n");
 	return (stash);
 }
 

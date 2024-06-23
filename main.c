@@ -6,68 +6,59 @@
 /*   By: pesrisaw <pesrisaw@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 19:45:29 by pesrisaw          #+#    #+#             */
-/*   Updated: 2024/06/18 15:43:02 by pesrisaw         ###   ########.fr       */
+/*   Updated: 2024/06/23 23:39:11 by pesrisaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./fdf.h"
 
-int	ft_count_nbr(char *nbr)
-{
-	int		i;
-	char	**result;
+// char **file_reader(int fd)
+// {
+// 	char *buffer;
+// 	char *tmp;
+// 	char **ret;
+// 	char *t;
+	
+// 	while (buffer != NULL)
+// 	{
+// 		tmp = get_next_line(fd);
+// 		if (buffer == NULL)
+// 			break;
+// 		t = buffer;
+// 		buffer = ft_strjoin(buffer, tmp);
+// 		if (t)
+// 			free(t);
+// 		if (tmp)
+// 			free(tmp);
+// 		tmp = NULL;
+// 		t = NULL;
+// 	}
+// 	if (buffer)
+// 		ret = ft_split(buffer , '\n');
+	
+// 	return (ret);
+// }
 
-	result = ft_split(nbr, ' ');
-	i = 0;
-	while (result[i] != NULL)
-		i++;
-	ft_free(result);
-	return (i);
-}
+// void find_row_col(char **char_ar)
+// {
+// 	int row;
+// 	int col;
 
-void	ft_find_axis(t_fdf *ax, char	*str)
-{
-	int		fd;
-	char	*line;
-	int		i;
-	int		j;
+// 	int max_col;
+	
+// 	while (char_ar[row])
+// 	{
+// 		col = 0;
+// 		while (char_ar[row][col])
+// 			col++;
+// 		if (max_col < col)
+// 			max_col = col;	
+// 		row++;
+// 	}
+// 	nbr->row = row;
+// 	nbr->col = max_col;
 
-	fd = open(str, O_RDONLY);
-	if (fd != 3)
-		ft_error("No found file\n", 0);
-	i = 0;
-	while (1)
-	{
-		line = get_next_line(fd);
-		if (!line)
-			break ;
-		j = 0;
-		while (j < ft_count_nbr(line))
-			j++;
-		i++;
-		free(line);
-	}
-	ax->row = i;
-	ax->col = j;
-	close(fd);
-}
-
-void	ft_alloc(t_fdf *nbr)
-{
-	int	i;
-
-	nbr->plot = malloc(sizeof(t_plot *) * (nbr->col));
-	if (!nbr->plot)
-		return ;
-	i = 0;
-	while (i < nbr->col)
-	{
-		nbr->plot[i] = malloc(sizeof(t_plot) * (nbr->row));
-		if (!nbr->plot[i])
-			return ;
-		i++;
-	}
-}
+// }
 
 void	ft_set_x_y(t_fdf *nbr, char *str)
 {
@@ -75,34 +66,73 @@ void	ft_set_x_y(t_fdf *nbr, char *str)
 	char	*line;
 
 	nbr->fd = open(str, O_RDONLY);
+	if (nbr->fd < 0)
+		exit(EXIT_FAILURE);
 	ft_alloc(nbr);
 	nbr->i = 0;
-	while (nbr->i < nbr->col)
+	printf("start xy\n");
+	printf("col : %d\n", nbr->col);
+	printf("row : %d\n", nbr->row);
+	while (nbr->i < nbr->row)
 	{
 		line = get_next_line(nbr->fd);
 		if (!line)
 			break ;
+		printf("line : %s\n", line);
 		result = ft_split(line, ' ');
 		nbr->j = 0;
-		while (nbr->j < nbr->row)
+		while (nbr->j < nbr->col)
 		{
-			nbr->plot[nbr->i][nbr->j].x = nbr->j;
-			nbr->plot[nbr->i][nbr->j].y = nbr->i;
-			nbr->plot[nbr->i][nbr->j].z = ft_atoi(result[nbr->j]);
+			nbr->plot[nbr->i][nbr->j].x = nbr->j * 3;
+			nbr->plot[nbr->i][nbr->j].y = nbr->i * 3;
+			if (result[nbr->j] != NULL)
+				nbr->plot[nbr->i][nbr->j].z = ft_atoi(result[nbr->j]);
+			else
+				nbr->plot[nbr->i][nbr->j].z = 0;
+			// printf("x: %.2f\n", nbr->plot[nbr->i][nbr->j].x);
+			// printf("y: %.2f\n", nbr->plot[nbr->i][nbr->j].y);
+			// printf("z: %.2f\n", nbr->plot[nbr->i][nbr->j].z);
+			// ft_put_pixel(nbr, nbr->i, nbr->j, o[ijpi8uhbn]);klm,lk'nmjkm nokunjk j j';
+			// ft_put_pixel(nbr, nbr->plot[nbr->i][nbr->j].x, nbr->plot[nbr->i][nbr->j].y, WHITE_COLOR);
 			nbr->j++;
 		}
 		nbr->i++;
+		// printf("xy w\n");
 		free(line);
 		ft_free(result);
 	}
 	close (nbr->fd);
+	printf("done xy\n");
 }
 
 void	ft_initialize(t_fdf *nbr, char *str)
 {
+	// char **readfile(str(file name))
+	// find axis (char **, nbr)
+	// set_x_y(char **, nbr)
+	// find_color(char **, nbr)
 	ft_find_axis(nbr, str);
 	ft_set_x_y(nbr, str);
-	
+	ft_find_color(nbr, str);
+}
+
+void	ft_calculate(t_fdf *n)
+{
+	n->i = 0;
+	while (n->i < n->row)
+	{
+		n->j = 0;
+		while (n->j < n->col)
+		{
+			n->tmp_x = n->plot[n->i][n->j].x;
+			n->tmp_y = n->plot[n->i][n->j].y;
+			n->plot[n->i][n->j].x = (n->tmp_x - n->tmp_y) * cos(ANGLE);
+			n->plot[n->i][n->j].y = ((n->tmp_x + n->tmp_y) * sin(ANGLE) \
+			- n->plot[n->i][n->j].z);
+			n->j++;
+		}
+		n->i++;
+	}
 }
 
 int	main(int ac, char **av)
@@ -113,123 +143,21 @@ int	main(int ac, char **av)
 		return (-1);
 	check_arg(av);
 	ft_initialize(&number, av[1]);
+	printf("row : %d\n", number.row);
+	printf("col : %d\n", number.col);
+	number.mlx = mlx_init(WIDTH, HEIGHT, "Test", true);
+	if (!number.mlx)
+		exit(EXIT_FAILURE);
+	number.img = mlx_new_image(number.mlx, WIDTH, HEIGHT);
+	// for (int h = 1; h < number.img->height; h++)
+	// 	for (int w = 1; w < number.img->width; w++)
+	// 		mlx_put_pixel(number.img, w, h, 255);
+	ft_calculate(&number);
+	printf("calculate\n");
+	ft_drawline(&number);
+	printf("drawline\n");
+	mlx_image_to_window(number.mlx, number.img, 0, 0);
+	mlx_loop(number.mlx);
+	mlx_terminate(number.mlx);
 	ft_free_struct(number.plot);
-	// printf("col : %d\n", number.col);
-	// printf("row : %d\n", number.row);
-	// number.i = 0;
-	// while (number.i < number.col)
-	// {
-	// 	number.j = 0;
-	// 	while (number.j < number.row)
-	// 	{
-	// 		printf("(%d, %d) = %d\n", number.i, number.j, (int)number.plot[number.i][number.j].z);
-	// 		number.j++;
-	// 	}
-	// 	number.i++;
-	// }
 }
-
-	/*สร้างเส้นโครงร่าง แกน x, y*/
-	// mlx_t* mlx;
-	// mlx_image_t* img; 
-
-	// mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true);
-	// if (!mlx)
-	// 	exit(EXIT_FAILURE);
-	// img = mlx_new_image(mlx, WIDTH, HEIGHT);
-	
-	// int	x = 0;
-	// while (x++ < WIDTH)
-	// 	mlx_put_pixel(img, x, 0, get_rgba(255,0,0,255));
-
-	// int y = 0;
-	// while (y++ < HEIGHT)
-	// 	mlx_put_pixel(img, 0, y, get_rgba(255,0,0,255));
-
-	// mlx_image_to_window(mlx, img, 100, 100);
-	// mlx_loop(mlx);
-	// mlx_close_window(mlx);
-	// mlx_delete_image(mlx, img);
-	// mlx_terminate(mlx);
-
-    // return (EXIT_SUCCESS);
-
-
-
-	/*อันใหม่*/
-
-	// axis	ax;
-	// t_plot	**ptr;
-	// int		fd;
-	// int		i;
-	// t_fdf	s;
-	// char	*line;
-	// int		x;
-	// int		y;
-	// int		tmp_x = 0;
-	// int		tmp_y = 0;
-	// mlx_image_t*	img;
-	// mlx_t			*mlx;
-	// // float	dx = 0;
-	// // float	dy = 0;
-	// // mlx_t	*mlx;
-	// // mlx_image_t*	img;
-	// char	**result;
-	// if (ac != 2)
-	// 	return (-1);
-	// ax = ft_find_axis(av[1]);
-	// // printf("col : %d\n", ax.col);
-	// // printf("row : %d\n", ax.row);
-	// i = 0;
-	// ptr = malloc(sizeof(t_plot *) * ax.col);
-	// while (i < ax.col)
-	// {
-	// 	ptr[i] = malloc(sizeof(t_plot) * ax.col);
-	// 	i++;
-	// }
-	// fd = open(av[1], O_RDONLY);
-	// mlx = mlx_init(WIDTH, HEIGHT, "TEST", true);
-	// if (!mlx)
-	// 	exit(EXIT_FAILURE);
-	// img = mlx_new_image(mlx, WIDTH, HEIGHT);
-	// y = 0;
-	// while (y < ax.row)
-	// {
-	// 	x = 0;
-	// 	result = ft_split(line, ' ');
-	// 	while (x < ax.col)
-	// 	{
-	// 		ptr[x][y].x = x * 10;
-	// 		ptr[x][y].y = y * 10;
-	// 		ptr[x][y].z = ft_atoi(result[x]);
-	// 		tmp_x = ptr[x][y].x;
-	// 		tmp_y = ptr[x][y].y;
-			
-	// 		// ptr[x][y].x = tmp_x + cos(ANGLE_120) * ptr[x][y].z;
-	// 		// ptr[x][y].y = tmp_y + sin(ANGLE_120) * ptr[x][y].z;
-			
-	// 		// ptr[x][y].x = tmp_x * cos(ANGLE_120) + tmp_y * cos(ANGLE_120+2) + ptr[x][y].z * cos(ANGLE_120-2);
-	// 		// ptr[x][y].y = tmp_y * sin(ANGLE_120) + tmp_y * sin(ANGLE_120+2) + ptr[x][y].z * sin(ANGLE_120-2);
-
-	// 		// ptr[x][y].x = tmp_x * cos(ANGLE_120) + tmp_y * cos(ANGLE_122) + ptr[x][y].z * cos(ANGLE_118);
-	// 		// ptr[x][y].y = tmp_x * sin(ANGLE_120) + tmp_y * sin(ANGLE_122) + ptr[x][y].z * sin(ANGLE_118);
-			
-	// 		ptr[x][y].x = (tmp_x - tmp_y) * cos(ANGLE);
-	// 		ptr[x][y].y = ((tmp_x + tmp_y) * sin(ANGLE) - ptr[x][y].z);
-			
-	// 		printf("ptr-x : %d\n", ptr[x][y].x);
-	// 		printf("ptr-y : %d\n", ptr[x][y].y);
-	// 		printf("ptr-z : %d\n",  ptr[x][y].z);
-			
-	// 		mlx_put_pixel(img, ptr[x][y].x + 100, ptr[x][y].y + 100, get_rgba(255, 255, 255, 255));
-	// 		x++;
-	// 	}
-	// 	y++;
-	// 	free(line);
-	// 	free(result);
-	// }
-	// mlx_image_to_window(mlx, img, 0, 0);
-	// // mlx_image_to_window(mlx, img, 500, 500);
-	// mlx_loop(mlx);
-	// mlx_terminate(mlx);
-	// close(fd);
