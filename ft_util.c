@@ -6,7 +6,7 @@
 /*   By: pesrisaw <pesrisaw@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 20:38:09 by pesrisaw          #+#    #+#             */
-/*   Updated: 2024/06/23 22:35:46 by pesrisaw         ###   ########.fr       */
+/*   Updated: 2024/06/25 22:17:39 by pesrisaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,14 @@ int	ft_count_nbr(char *nbr)
 	ft_free(result);
 	return (i);
 }
+
 void	ft_put_pixel(t_fdf *pic, int x, int y, long color)
 {
-	printf("x : %d\n", x);
-	printf("y : %d\n", y);
-	if ((x) < pic->img->width && (y) < pic->img->height)
+	int	w;
+	int	h;
+
+	w = pic->img->width;
+	h = pic->img->height;
+	if ((x >= 0 && x < w) && (y >= 0 && y < h))
 		mlx_put_pixel(pic->img, x, y, (color << 8) + 255);
 }

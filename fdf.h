@@ -6,14 +6,14 @@
 /*   By: pesrisaw <pesrisaw@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 19:36:27 by pesrisaw          #+#    #+#             */
-/*   Updated: 2024/06/23 22:24:38 by pesrisaw         ###   ########.fr       */
+/*   Updated: 2024/06/25 15:15:40 by pesrisaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 4000
+#  define BUFFER_SIZE 10000
 # endif
 # include <stdio.h>
 # include <fcntl.h>
@@ -34,6 +34,7 @@
 # define ANGLE_122 2.1263
 # define WHITE_COLOR 16777215
 # define RED_COLOR 16711680
+# define TYPE_FILE ".fdf"
 
 typedef struct s_plot
 {
@@ -55,6 +56,9 @@ typedef struct s_fdf
 	float		dx;
 	float		dy;
 	float		steps;
+	float		radio;
+	char		**map;
+	char		**tmp;
 	t_plot		**plot;
 	mlx_t		*mlx;
 	mlx_image_t	*img;
@@ -67,18 +71,21 @@ void	ft_error(char *str, int fd);
 long	ft_atoh(char *str);
 int		ft_count_nbr(char *nbr);
 void	ft_put_pixel(t_fdf *pic, int x, int y, long color);
+void	ft_error_sq(char *str, int fd, t_fdf *nbr);
+void	file_reader(t_fdf *nbr, char *str);
+void	ft_check_fd(char *str, int fd, t_fdf *nbr);
 
 /*drawline*/
 void	ft_drawline(t_fdf *nbr);
 void	ft_dda(t_plot start, t_plot end, t_fdf *pic);
 
 /*axis*/
-void	ft_find_axis(t_fdf *ax, char *str);
+void	ft_find_axis(t_fdf *ax);
 
 /*color*/
 long	set_color(char **color, t_fdf *nbr, int i, int j);
 int		get_rgba(int r, int g, int b, int a);
-void	ft_find_color(t_fdf *nbr, char *str);
+void	ft_find_color(t_fdf *nbr);
 
 /*free*/
 void	ft_free(char **str);

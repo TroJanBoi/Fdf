@@ -6,7 +6,7 @@
 /*   By: pesrisaw <pesrisaw@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 04:38:44 by pesrisaw          #+#    #+#             */
-/*   Updated: 2024/06/23 20:52:29 by pesrisaw         ###   ########.fr       */
+/*   Updated: 2024/06/25 21:27:27 by pesrisaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	ft_isallspace(char *str)
 {
-	int	i;
-	int	count;
+	int		i;
+	size_t	count;
 
 	i = 0;
 	count = 0;
@@ -29,8 +29,26 @@ int	ft_isallspace(char *str)
 	return (0);
 }
 
+int	ft_isfilefdf(char *str)
+{
+	char	*file;
+
+	file = ft_strrchr(str, '.');
+	if (file)
+	{
+		if (!ft_strncmp(file, TYPE_FILE, 4))
+		{
+			return (1);
+		}
+		return (0);
+	}
+	return (0);
+}
+
 void	check_arg(char **av)
 {
 	if (ft_isallspace(av[1]) == 0)
-		ft_error("No file\n", 0);
+		ft_error("No file\n", 2);
+	else if (ft_isfilefdf(av[1]) == 0)
+		ft_error("No file\n", 2);
 }

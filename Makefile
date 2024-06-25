@@ -6,13 +6,13 @@
 #    By: pesrisaw <pesrisaw@student.42bangkok.co    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/10 19:05:16 by pesrisaw          #+#    #+#              #
-#    Updated: 2024/06/23 20:45:19 by pesrisaw         ###   ########.fr        #
+#    Updated: 2024/06/25 22:11:34 by pesrisaw         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= fdf
-# CFLAGS	:= -Wextra -Wall -Werror
-CFLAGS	= -g
+CFLAGS	= -Wextra -Wall -Werror -g
+# CFLAGS	= -g
 LIBMLX	= ./MLX42
 LIBFT	= ./libft
 
@@ -27,11 +27,12 @@ SRCS	=	main.c \
 			check_input.c \
 			ft_util.c \
 			ft_drawline.c \
-			ft_axis.c
+			ft_axis.c \
+			ft_reader.c
 
 OBJS	= ${SRCS:.c=.o}
 
-all: libmlx $(NAME)
+all: libmlx $(NAME) 
 
 libmlx:
 	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4

@@ -6,37 +6,29 @@
 /*   By: pesrisaw <pesrisaw@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 20:43:56 by pesrisaw          #+#    #+#             */
-/*   Updated: 2024/06/23 21:39:26 by pesrisaw         ###   ########.fr       */
+/*   Updated: 2024/06/25 22:18:26 by pesrisaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	ft_find_axis(t_fdf *ax, char *str)
+void	ft_find_axis(t_fdf *ax)
 {
-	int		fd;
-	char	*line;
-	int		i;
-	int		j;
+	int		row;
+	int		col;
+	int		max_col;
 
-	fd = open(str, O_RDONLY);
-	if (fd < 0)
-		ft_error("No found file\n", 0);
-	i = 0;
-	while (1)
+	row = 0;
+	max_col = ft_count_nbr(ax->map[row]);
+	while (ax->map[row])
 	{
-		line = get_next_line(fd);
-		if (!line)
-			break ;
-		j = 0;
-		while (j < ft_count_nbr(line))
-			j++;
-		i++;
-		// printf("line : %s\n", line);
-		free(line);
+		col = ft_count_nbr(ax->map[row]);
+		if (col != max_col)
+			ft_error_sq("Found wrong line length. Exiting.\n", 2, ax);
+		else if (max_col == 0 && row == 0 && col == 0)
+			ft_error("No data found.\n", 2);
+		row++;
 	}
-	ax->row = i;
-	ax->col = j;
-	close(fd);
-	// printf("done fd\n");
+	ax->col = max_col;
+	ax->row = row;
 }
