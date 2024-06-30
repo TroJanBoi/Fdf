@@ -6,7 +6,7 @@
 /*   By: pesrisaw <pesrisaw@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 20:38:09 by pesrisaw          #+#    #+#             */
-/*   Updated: 2024/06/25 22:17:39 by pesrisaw         ###   ########.fr       */
+/*   Updated: 2024/06/27 14:38:44 by pesrisaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,9 @@ void	ft_put_pixel(t_fdf *pic, int x, int y, long color)
 	h = pic->img->height;
 	if ((x >= 0 && x < w) && (y >= 0 && y < h))
 		mlx_put_pixel(pic->img, x, y, (color << 8) + 255);
+}
+
+void	ft_find_radio(t_fdf *n)
+{
+	n->radio = (WIDTH / (cos(ANGLE) * (n->row + n->col)));
 }

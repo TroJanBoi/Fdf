@@ -6,7 +6,7 @@
 /*   By: pesrisaw <pesrisaw@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 19:45:29 by pesrisaw          #+#    #+#             */
-/*   Updated: 2024/06/25 22:10:44 by pesrisaw         ###   ########.fr       */
+/*   Updated: 2024/06/27 14:38:36 by pesrisaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,6 @@ void	ft_set_x_y(t_fdf *nbr)
 	}
 }
 
-void	ft_find_radio(t_fdf *n)
-{
-	n->radio = (WIDTH / (cos(ANGLE) * (n->row + n->col)));
-}
-
 void	ft_initialize(t_fdf *nbr, char *str)
 {
 	file_reader(nbr, str);
@@ -72,15 +67,7 @@ void	ft_calculate(t_fdf *n)
 	}
 }
 
-void	ft_close(t_fdf *cs)
-{
-	mlx_terminate(cs->mlx);
-	ft_free(cs->map);
-	ft_free_struct(cs->plot);
-	exit(EXIT_SUCCESS);
-}
-
-void ft_keyhook(mlx_key_data_t keydata, void* param)
+void	ft_keyhook(mlx_key_data_t keydata, void *param)
 {
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 		ft_close(param);
@@ -105,11 +92,3 @@ int	main(int ac, char **av)
 	mlx_loop(number.mlx);
 	ft_close(&number);
 }
-
-// for (int h = 1; h < number.img->height; h++)
-	// 	for (int w = 1; w < number.img->width; w++)
-	// 		mlx_put_pixel(number.img, w, h, 255);
-
-// if (buffer)
-// 	ret = ft_split(buffer, '\n');
-// nbr->map = ret;

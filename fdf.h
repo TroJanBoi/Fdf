@@ -6,7 +6,7 @@
 /*   By: pesrisaw <pesrisaw@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 19:36:27 by pesrisaw          #+#    #+#             */
-/*   Updated: 2024/06/25 15:15:40 by pesrisaw         ###   ########.fr       */
+/*   Updated: 2024/06/27 14:39:11 by pesrisaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,12 @@ void	ft_put_pixel(t_fdf *pic, int x, int y, long color);
 void	ft_error_sq(char *str, int fd, t_fdf *nbr);
 void	file_reader(t_fdf *nbr, char *str);
 void	ft_check_fd(char *str, int fd, t_fdf *nbr);
+void	ft_close(t_fdf *cs);
 
 /*drawline*/
 void	ft_drawline(t_fdf *nbr);
 void	ft_dda(t_plot start, t_plot end, t_fdf *pic);
+void	ft_find_radio(t_fdf *n);
 
 /*axis*/
 void	ft_find_axis(t_fdf *ax);
